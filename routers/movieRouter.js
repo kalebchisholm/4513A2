@@ -68,14 +68,14 @@ movieRouter.get("/movies/year/:min/:max", helper.ensureAuthenticated, async (req
 
   const filtered = movies.filter(function (movie) {
     return (
-      req.params.max >= movie.release_date.slice(0, 4) &&
-      movie.release_date.slice(0, 4) >= req.params.min
+      parseInt(req.params.max) >= parseInt(movie.release_date.slice(0, 4)) &&
+      parseInt(movie.release_date.slice(0, 4)) >= parseInt(req.params.min)
     );
   });
 
   console.log(filtered);
-  if (movies.length != 0) {
-    res.json(movies);
+  if (filtered.length != 0) {
+    res.json(filtered);
   } else {
     res.json("No movies available");
   }
