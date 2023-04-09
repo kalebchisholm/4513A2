@@ -1,16 +1,27 @@
+// FILENAME: movieRouter
+// PURPOSE: Defines the routes for the API
+// 
+// DATE: 04/08/2023
+// AUTHOR: Kaleb Chisholm
+// ----------------------------------------------------------------------------
 const express = require("express");
 const movieRouter = express.Router();
 const MovieSchema = require('../models/movieSchema');
+const helper = require('../scripts/helpers');
 
 // Get all movies
-movieRouter.get("/movies", async (req, res) => {
+movieRouter.get("/movies", helper.ensureAuthenticated, async (req, res) => {
 	const movies = await MovieSchema.find();
   console.log(movies);
-	res.json(movies);
+  if (movies.length != 0) {
+    res.json(movies);
+  } else {
+    res.json("No movies available");
+  }
 });
 
 // Get movies up to limit
-movieRouter.get("/movies/limit/:num", async (req, res) => {
+movieRouter.get("/movies/limit/:num", helper.ensureAuthenticated, async (req, res) => {
   const limit = req.params.num;
 
   if (limit < 1 || limit > 200) {
@@ -18,26 +29,41 @@ movieRouter.get("/movies/limit/:num", async (req, res) => {
   } else {
     const movies = await MovieSchema.find().limit(limit);
     console.log(movies);
-    res.json(movies);
+
+    if (movies.length != 0) {
+      res.json(movies);
+    } else {
+      res.json("No movies available");
+    }
+
   }
 });
 
 // Get movie by ID
-movieRouter.get("/movies/:id", async (req, res) => {
+movieRouter.get("/movies/:id", helper.ensureAuthenticated, async (req, res) => {
 	const movies = await MovieSchema.find({ id: req.params.id });
   console.log(movies);
-  res.json(movies);
+  console.log([]);
+  if (movies.length != 0) {
+    res.json(movies);
+  } else {
+    res.json("No movie available");
+  }
 });
 
 // Get movie by tmdb ID
-movieRouter.get("/movies/tmdb/:id", async (req, res) => {
+movieRouter.get("/movies/tmdb/:id", helper.ensureAuthenticated, async (req, res) => {
 	const movies = await MovieSchema.find({ tmdb_id: req.params.id });
   console.log(movies);
-  res.json(movies);
+  if (movies.length != 0) {
+    res.json(movies);
+  } else {
+    res.json("No movies available");
+  }
 });
 
 // Get movies by year
-movieRouter.get("/movies/year/:min/:max", async (req, res) => {
+movieRouter.get("/movies/year/:min/:max", helper.ensureAuthenticated, async (req, res) => {
 	const movies = await MovieSchema.find();
 
   const filtered = movies.filter(function (movie) {
@@ -48,28 +74,44 @@ movieRouter.get("/movies/year/:min/:max", async (req, res) => {
   });
 
   console.log(filtered);
-  res.json(filtered);
+  if (movies.length != 0) {
+    res.json(movies);
+  } else {
+    res.json("No movies available");
+  }
 });
 
 // Get movies by rating
-movieRouter.get("/movies/ratings/:min/:max", async (req, res) => {
+movieRouter.get("/movies/ratings/:min/:max", helper.ensureAuthenticated, async (req, res) => {
 	const movies = await MovieSchema.find({ "ratings.average": { $gt: req.params.min, $lt: req.params.max } });
   console.log(movies);
-  res.json(movies);
+  if (movies.length != 0) {
+    res.json(movies);
+  } else {
+    res.json("No movies available");
+  }
 });
 
 // Get movies by title
-movieRouter.get("/movies/title/:text", async (req, res) => {
+movieRouter.get("/movies/title/:text", helper.ensureAuthenticated, async (req, res) => {
 	const movies = await MovieSchema.find({ title: { $regex: req.params.text }});
   console.log(movies);
-  res.json(movies);
+  if (movies.length != 0) {
+    res.json(movies);
+  } else {
+    res.json("No movies available");
+  }
 });
 
 // Get movies by genre
-movieRouter.get("/movies/genre/:name", async (req, res) => {
+movieRouter.get("/movies/genre/:name", helper.ensureAuthenticated, async (req, res) => {
 	const movies = await MovieSchema.find({ "details.genres.name": { $regex: req.params.name }});
-  console.log(movies);
-  res.json(movies);
+  console.log(movies.length);
+  if (movies.length != 0) {
+    res.json(movies);
+  } else {
+    res.json("No movies available");
+  }
 });
 
 module.exports = movieRouter;

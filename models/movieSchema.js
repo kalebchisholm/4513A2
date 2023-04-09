@@ -1,3 +1,9 @@
+// FILENAME: userSchema
+// PURPOSE: Defines the schema for the movies in the MongoDB
+// 
+// DATE: 04/08/2023
+// AUTHOR: Kaleb Chisholm
+// ----------------------------------------------------------------------------
 const mongoose = require("mongoose");
 
 const movieSchema = mongoose.Schema({
