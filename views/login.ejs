@@ -4,10 +4,15 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+      <link rel="stylesheet" href="styles.css">
+   </head>
    <body>
       <section class="section">
          <div class="container">
-            <h1 class="title">Login</h1>
+            <header>
+               <h2 id="heading">COMP 4513: Assignment 2</h2>
+             </header>
+            <h2 class="title">Login</h2>
             <div class="box">
                <form action="/login" method="post">
                   <div class="field">
@@ -23,7 +28,7 @@
                      </div>
                   </div>
                   <div class="control">
-                     <button type="submit" class="button is-link">Login Locally</button>
+                     <button type="submit" class="button is-link">Login</button>
                   </div>
                   <% if (message) { %>
                     <p id="msg2" class="help is-danger">
@@ -32,6 +37,13 @@
                   <% } %>
                </form>
             </div>
+            <footer>
+               <p>
+                 Kaleb Chisholm,
+                 <a href="https://github.com/kalebchisholm/4513A2.git">link to Github</a>
+                 &copy 2023
+               </p>
+             </footer>
          </div>
       </section>
    </body>

@@ -26,11 +26,13 @@ require("./scripts/auth.js");
 // Connect to MongoDB database
 mongoose.connect(process.env.MONGO_CONNECTION, opt).then(() => {
   const app = express();
-  app.use(express.static(__dirname + '/public'));
+
 	app.set('view engine', 'ejs');
+
+  app.use(express.static(__dirname + '/public'));
 	app.use(express.json());
 	app.use(express.urlencoded({ extended: true }));
-
+  
 	// Express session
 	app.use(cookieParser("oreos"));
 	app.use(
